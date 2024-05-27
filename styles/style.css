@@ -1,0 +1,119 @@
+:root {
+    --preto: #000000;
+    --branco: #FFFFFF;
+    --azul-escuro: #00204a;
+    --azul: #005792;
+    --azul-claro: #00bbf0;
+    --amarelo: #fdb44b;
+}
+
+body {    
+    box-sizing: border-box;
+    background-color: var(--azul-escuro);
+    display: flex;
+    flex-direction: column;
+    min-height: 98vh;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.container_Formulario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+    margin-top: 1em;
+    width: 70vw;
+    background-color: var(--branco);
+    border: 2px solid var(--amarelo);
+    border-radius: 5px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo_BB {
+    height: 50px;
+    width: 50px;
+    margin: 0 3em;
+}
+
+.formulario {
+    background-color: var(--branco);
+    width: 80%;
+}
+
+.formulario_Campo_Oculto {
+    display: none;
+    margin: 0.5em;
+}
+
+.formulario_Campo_Obrigatorio {
+    margin: 0.5em;
+}
+
+/* Elementos do primeiro fieldset Dados das Contas Judiciais */
+.radio_Dados_Contas_Judiciais {
+    margin: 0.5em 0.1em 0.5em 2em;
+}
+
+.input_Dados_Contas_Judiciais {
+    width: 10em;
+    margin-right: 2em;
+}
+
+.input_Dados_Contas_Judiciais_Grande {
+    width: 22em;
+    margin-right: 3em;
+}
+
+/*Elementos dos filedsets de dados pessoais*/
+.input_Dados_Pessoais {
+    width: 28em;
+}
+
+/*Elementos dos fieldsets de dados bancarios*/
+.formulario_Dados_Bancarios {
+    display: grid;
+    grid-template-columns: 5em auto;
+}
+
+.input_Dados_Bancarios {
+    justify-self: left;
+}
+
+/*Elementos dos dados para contato*/
+.formulario_Dados_Contato_Grid {
+    display: grid;
+    grid-template-columns: 5em 10em 5em 20em;
+}
+
+.input_Dados_Contato_Data {
+    width: 35%;
+}
+
+/* Elementos de todos os campos */
+label, input {
+    margin: 0.3em 0.3em 0.3em 0.3em;
+}
+
+legend {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/*Rodapé*/
+footer {
+    padding-top: 3em;
+    bottom: 0;
+    height: 2vh;
+    width: 100%;
+}
+
+.ancoraDevRicardo {
+    color: var(--branco);
+    text-decoration: none;
+    float: right;
+}

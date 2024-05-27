@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link link href="styles/style.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <title>Formulário Resgate DJO</title>
+</head>
+<body>
+    <div class="container_Formulario">
+        <header>
+            <img src="img/bb-logo.jpg" id="logo_BB" class="logo_BB">
+            <h1>Formulário de Solicitação para Resgate de Depósito Judicial</h1>
+        </header>
+        
+        <form action="src/gerarPDF.php" method="POST" class="formulario" name="formularioDJO">
+            <!-- O primeiro campo do Formulário deve conter os dados da CONTA JUDICIAL -->
+            <fieldset id="formulario_Dados_Conta_Judicial" name="formulario_Dados_Conta_Judicial" class="formulario_Campo_Obrigatorio">
+                <legend>Dados das Contas Judiciais</legend>
+                <input type="radio" id="deposito_Judicial" name="radio_Tipo_Conta_Judicial" value="Deposito Judicial" class="radio_Dados_Contas_Judiciais" required>
+                <label for="deposito_Judicial" class="label_Dados_Contas_Judiciais">Depósito Judicial</label>
+                <input type="radio" id="precatorio_Com_Alvara" name="radio_Tipo_Conta_Judicial" value="Precatório Com Alvara" class="radio_Dados_Contas_Judiciais">
+                <label for="precatorio_Com_Alvara" class="label_Dados_Contas_Judiciais">Precatório com Alvará</label>
+                <input type="radio" id="precatorio_Sem_Alvara" name="radio_Tipo_Conta_Judicial" value="Precatório Sem Alvara" class="radio_Dados_Contas_Judiciais">
+                <label for="precatorio_Sem_Alvara" class="label_Dados_Contas_Judiciais">Precatório sem Alvará</label><br>
+                <label for="numero_Conta_Judicial1" class="label_Dados_Contas_Judiciais">Número das contas Judiciais</label>
+                <input type="text" id="numero_Conta_Judicial1" name="numero_Conta_Judicial1" inputmode="numeric" class="input_Dados_Contas_Judiciais" required>
+                <input type="text" id="numero_Conta_Judicial2" name="numero_Conta_Judicial2" inputmode="numeric" class="input_Dados_Contas_Judiciais">
+                <input type="text" id="numero_Conta_Judicial3" name="numero_Conta_Judicial3" inputmode="numeric" class="input_Dados_Contas_Judiciais"><br>
+                <label for="numero_Processo" class="label_Dados_Contas_Judiciais">Número do Processo</label>
+                <input type="text" id="numero_Processo" name="numero_Processo" inputmode="numeric" class="input_Dados_Contas_Judiciais_Grande" required>
+                <label for="tribunal" class="label_Dados_Contas_Judiciais">Tribunal</label>
+                <input type="text" id="tribunal" name="tribunal" class="input_Dados_Contas_Judiciais_Grande" required>
+            </fieldset>
+    
+            <!-- O segundo campo deve conter os DADOS PESSOAIS DO BENEFICIÁRIO da conta judicial -->
+            <fieldset id="formulario_Dados_Pessoais_Beneficiario" name="formulario_Dados_Pessoais_Beneficiario" class="formulario_Campo_Obrigatorio">
+                <legend>Dados Pessoais do Beneficiário da Conta Judicial</legend>
+                <label for="nome_Beneficiario" class="label_Dados_Pessoais">Nome</label>
+                <input type="text" id="nome_Beneficiario" name="nome_Beneficiario" class="input_Dados_Pessoais" required><br>
+                <label for="cpf_cnpj_Beneficiario" class="label_Dados_Pessoais">CPF ou CNPJ</label>
+                <input type="text" id="cpf_cnpj_Beneficiario" name="cpf_cnpj_Beneficiario" class="input_Dados_Pessoais_CPF" required>
+            </fieldset>
+
+            <input type="checkbox" name="creditoProcurador" id="creditoProcurador" value="creditoProcurador">
+            <label for="creditoProcurador">Creditar para Procurador</label>
+    
+            <!-- O terceiro campo ficará oculto, só aparece para informar DADOS PESSOAIS DO PROCURADOR se necessário
+            conforme checkbox acima -->
+            <fieldset id="formulario_Dados_Pessoais_Procurador" name="formulario_Dados_Pessoais_Procurador" class="formulario_Campo_Oculto">
+                <legend>Dados Pessoais do Procurador</legend>
+                <label for="nome_Procurador" class="label_Dados_Pessoais">Nome</label>
+                <input type="text" id="nome_Procurador" name="nome_Procurador" class="input_Dados_Pessoais"><br>
+                <label for="cpf_cnpj_Procurador" class="label_Dados_Pessoais">CPF ou CNPJ</label>
+                <input type="text" id="cpf_cnpj_Procurador" name="cpf_cnpj_Procurador" class="input_Dados_Pessoais_CPF">
+            </fieldset>
+    
+            <!-- O quarto campo deverá conter DADOS BANCÁRIOS DO BENEFICIÁRIO -->
+            <fieldset id="formulario_Dados_Bancarios_Beneficiario" name="formulario_Dados_Bancarios_Beneficiario" class="formulario_Campo_Obrigatorio">
+                <legend>Dados Bancários do Beneficiário</legend>
+                <div class="formulario_Dados_Bancarios">
+                    <label for="banco_Beneficiario" class="label_Dados_Bancarios">Banco</label>
+                    <select name="banco_Beneficiario" id="banco_Beneficiario" class="select_Bancos" required>
+                        <!-- DADOS FORNECIDOS PELO SCRIPT E BIBLIOTECA SELECT2 ABAIXO -->
+                        <option></option>
+                    </select>
+                    <label for="agencia_Beneficiario" class="label_Dados_Bancarios">Agência</label>
+                    <input type="text" name="agencia_Beneficiario" id="agencia_Beneficiario" inputmode="numeric" maxlength="4" class="input_Dados_Bancarios" required>
+                    <label for="conta_Beneficiario" class="label_Dados_Bancarios">Conta</label>
+                    <input type="text" name="conta_Beneficiario" id="conta_Beneficiario" inputmode="numeric" oninput="formatarConta()" class="input_Dados_Bancarios" required>                    
+                </div>
+
+                <label for="tipo_conta_Beneficiario" class="label_Dados_Bancarios">Tipo de Conta</label><br>
+                <input type="radio" name="tipo_conta_Beneficiario" id="conta_Corrente_Beneficiario" value="Conta Corrente" class="radio_Dados_Bancarios" required>
+                <label for="conta_Corrente_Beneficiario" class="label_Dados_Bancarios">Conta Corrente</label><br>
+                <input type="radio" name="tipo_conta_Beneficiario" id="conta_Poupanca_Beneficiario" value="Conta Poupança" class="radio_Dados_Bancarios">
+                <label for="conta_Poupanca_Beneficiario" class="label_Dados_Bancarios">Conta Poupança</label>
+                <!-- Tipo de valor com opções excludentes -->
+                <fieldset id="formulario_Dados_Bancarios_Beneficiario_Tipo_Valor" name="formulario_Dados_Bancarios_Beneficiario_Tipo_Valor" class="formulario_Tipo_Valor">
+                    <legend>Tipo de Valor</legend>
+                    <input type="radio" name="tipo_Valor_Beneficiario" id="valor_Total_Beneficiario" value="Valor Total" class="radio_Dados_Bancarios" required>
+                    <label for="valor_Total_Beneficiario" class="label_Dados_Bancarios">Valor Total</label>
+                    <input type="radio" name="tipo_Valor_Beneficiario" id="saldo_Remanescente_Beneficiario" value="Saldo Remanescente" class="radio_Dados_Bancarios">
+                    <label for="saldo_Remanescente_Beneficiario" class="label_Dados_Bancarios">Saldo Remanescente</label><br>
+                    <input type="radio" name="tipo_Valor_Beneficiario" id="valor_Parcial_Beneficiario" value="Valor Parcial" class="radio_Dados_Bancarios">
+                    <label for="valor_Parcial_Beneficiario" class="label_Dados_Bancarios">Parcial</label><br>
+                    <label for="valor_Reais_Beneficiario" class="label_Dados_Bancarios">Valor em R$</label>
+                    <input type="text" name="valor_Reais_Beneficiario" id="valor_Reais_Beneficiario" inputmode="numeric" placeholder="R$ 0,00" oninput="formatarMoeda()" class="input_Dados_Bancarios">
+                    <label for="valor_Porcentagem_Beneficiario" class="label_Dados_Bancarios">Porcentagem</label>
+                    <input type="text" name="valor_Porcentagem_Beneficiario" id="valor_Porcentagem_Beneficiario" inputmode="numeric" placeholder="99,9%" maxlength="5" oninput="formatarPorcentagem()" class="input_Dados_Bancarios">
+                </fieldset>
+            </fieldset>
+    
+            <!-- O quinto campo deverá conter DADOS BANCÁRIOS do Procurador e estará oculto enquanto o checkbox do 
+                credito procurador  não for selecionado-->
+            <fieldset id="formulario_Dados_Bancarios_Procurador" name="formulario_Dados_Bancarios_Procurador" class="formulario_Campo_Oculto">
+                <legend>Dados Bancários do Procurador</legend>
+                <div class="formulario_Dados_Bancarios">
+                    <label for="banco_Procurador" class="label_Dados_Bancarios">Banco</label>
+                    <select name="banco_Procurador" id="banco_Procurador" class="select_Bancos">
+                        <!-- DADOS FORNECIDOS PELO SCRIPT E BIBLIOTECA SELECT2 ABAIXO -->
+                        <option></option>
+                    </select>                    
+                    <label for="agencia_Procurador" class="label_Dados_Bancarios">Agência</label>
+                    <input type="text" name="agencia_Procurador" id="agencia_Procurador" class="input_Dados_Bancarios">
+                    <label for="conta_Procurador" class="label_Dados_Bancarios">Conta</label>
+                    <input type="text" name="conta_Procurador" id="conta_Procurador" inputmode="numeric" oninput="formatarContaProcurador()" class="input_Dados_Bancarios">
+                </div>
+                
+                <label for="tipo_conta_Procurador" class="label_Dados_Bancarios">Tipo de Conta</label><br>
+                <input type="radio" name="tipo_conta_Procurador" id="conta_Corrente_Procurador" class="radio_Dados_Bancarios">
+                <label for="conta_Corrente_Procurador" class="label_Dados_Bancarios">Conta Corrente</label><br>
+                <input type="radio" name="tipo_conta_Procurador" id="conta_Poupanca_Procurador" class="radio_Dados_Bancarios">
+                <label for="conta_Poupanca_Procurador" class="label_Dados_Bancarios">Conta Poupança</label>
+                <!-- Tipo de valor com opções excludentes -->
+                <fieldset id="formulario_Dados_Bancarios_Procurador_Tipo_Valor" name="formulario_Dados_Bancarios_Procurador_Tipo_Valor" class="formulario_Tipo_Valor">
+                    <legend>Tipo de Valor</legend>
+                    <input type="radio" name="tipo_Valor_Procurador" id="valor_Total_Procurador" class="radio_Dados_Bancarios">
+                    <label for="valor_Total_Procurador" class="label_Dados_Bancarios">Valor Total</label>
+                    <input type="radio" name="tipo_Valor_Procurador" id="saldo_Remanescente_Procurador" class="radio_Dados_Bancarios">
+                    <label for="saldo_Remanescente_Procurador" class="label_Dados_Bancarios">Saldo Remanescente</label><br>
+                    <input type="radio" name="tipo_Valor_Procurador" id="valor_Parcial_Procurador" class="radio_Dados_Bancarios">
+                    <label for="valor_Parcial_Procurador" class="label_Dados_Bancarios">Parcial</label><br>
+                    <label for="valor_Reais_Procurador" class="label_Dados_Bancarios">Valor em R$</label>
+                    <input type="text" name="valor_Reais_Procurador" id="valor_Reais_Procurador" inputmode="numeric" placeholder="R$ 0,00" oninput="formatarMoeda()" class="input_Dados_Bancarios">
+                    <label for="valor_Porcentagem_Procurador" class="label_Dados_Bancarios">Porcentagem</label>
+                    <input type="text" name="valor_Porcentagem_Procurador" id="valor_Porcentagem_Procurador" inputmode="numeric" placeholder="99,9%" maxlength="5" oninput="formatarPorcentagem()" class="input_Dados_Bancarios">
+                </fieldset>
+            </fieldset>
+            
+            <input type="checkbox" name="isentoIR" id="isentoIR" value="isentoIR">
+            <label for="isentoIR">Adicionar Declaração de Isenção de Imposto</label>
+                
+            <!-- O sexto e último campo deve conter DADOS PARA CONTATO -->
+            <fieldset id="formulario_Dados_Contato" name="formulario_Dados_Contato" class="formulario_Campo_Obrigatorio">
+                <legend>Dados para Contato</legend>
+                <div class="formulario_Dados_Contato_Grid">
+                    <label for="telefone" class="label_Dados_Contato">Telefone</label>
+                    <input type="tel" name="telefone" id="telefone" class="input_Dados_Contato" required placeholder="(99)99999-9999">
+                    <label for="email">E-mail</label>
+                    <input type="email" name="email" id="email" class="input_Dados_Contato" placeholder="email@email.com">
+                    <label for="local" class="label_Dados_Contato">Local</label>
+                    <input type="text" name="local" id="local" class="input_Dados_Contato" required placeholder="Cidade UF">
+                    <label for="data" class="label_Dados_Contato">Data</label>
+                    <input type="date" name="data" id="data" class="input_Dados_Contato_Data" required>
+                </div>                
+            </fieldset>
+    
+            <input type="submit" value="Imprimir" formtarget="_blank">
+        </form>
+    </div>
+    
+
+    <footer>
+        <hr />
+        <a href="#" class="ancoraDevRicardo">Desenvolvido por Ricardo Alemida</a>
+    </footer>
+
+
+    <script>
+        const bancos = [
+    { id: 1, text: "001 - BANCO DO BRASIL S.A." },
+    { id: 2, text: "003 - BANCO DA AMAZONIA S.A." },
+    { id: 3, text: "004 - BANCO DO NORDESTE DO BRASIL S.A." },
+    { id: 4, text: "007 - Banco Nacional de Desenvolvimento Econômico e Social – BNDES" },
+    { id: 5, text: "012 - BANCO STANDARD DE INVESTIMENTOS S.A." },
+    { id: 6, text: "014 - NATIXIS BRASIL S.A. BANCO MÚLTIPLO" },
+    { id: 7, text: "019 - BANCO AZTECA DO BRASIL S.A." },
+    { id: 8, text: "021 - BANESTES S.A. BANCO DO ESTADO DO ESPIRITO SANTO" },
+    { id: 9, text: "024 - BANCO DE PERNAMBUCO S.A. - BANDEPE" },
+    { id: 10, text: "025 - BANCO ALFA S.A." },
+    { id: 11, text: "029 - BANCO BANERJ S.A." },
+    { id: 12, text: "031 - BANCO BEG S.A." },
+    { id: 13, text: "033 - BANCO SANTANDER S.A." },
+    { id: 14, text: "036 - BANCO BRADESCO BBI S.A." },
+    { id: 15, text: "037 - BANCO DO ESTADO DO PARÁ S.A." },
+    { id: 16, text: "040 - BANCO CARGILL S.A." },
+    { id: 17, text: "041 - BANCO DO ESTADO DO RIO GRANDE DO SUL S.A." },
+    { id: 18, text: "044 - BANCO BVA S.A." },
+    { id: 19, text: "045 - BANCO OPPORTUNITY S.A." },
+    { id: 20, text: "047 - BANCO DO ESTADO DE SERGIPE S.A." },
+    { id: 21, text: "51 - Banco de Desenvolvimento do Espírito Santo S.A." },
+    { id: 22, text: "062 - HIPERCARD BANCO MÚLTIPLO S.A." },
+    { id: 23, text: "063 - BANCO IBI S.A. - BANCO MÚLTIPLO" },
+    { id: 24, text: "065 - BANCO LEMON S.A." },
+    { id: 25, text: "066 - BANCO MORGAN STANLEY S.A." },
+    { id: 26, text: "069 - BPN BRASIL BANCO MÚLTIPLO S.A." },
+    { id: 27, text: "070 - BRB - BANCO DE BRASILIA S.A." },
+    { id: 28, text: "072 - BANCO RURAL MAIS S.A." },
+    { id: 29, text: "073 - BB BANCO POPULAR DO BRASIL S.A." },
+    { id: 30, text: "074 - BANCO J. SAFRA S.A." },
+    { id: 31, text: "075 - BANCO CR2 S/A" },
+    { id: 32, text: "076 - BANCO KDB DO BRASIL S.A." },
+    { id: 33, text: "077 - BANCO INTER S/A" },
+    { id: 34, text: "078 - BES INVESTIMENTO DO BRASIL S.A. - BANCO DE INVESTIMENTO" },
+    { id: 35, text: "079 - JBS BANCO S/A" },
+    { id: 36, text: "080 - B&T Cc Ltda" },
+    { id: 37, text: "081 - CONCÓRDIA BANCO S.A." },
+    { id: 38, text: "082 - BANCO TOPÁZIO S.A." },
+    { id: 39, text: "083 - BANCO DA CHINA BRASIL S.A" },
+    { id: 40, text: "094 - Banco Finaxis S.A." },
+    { id: 41, text: "096 - Banco B3 S.A." },
+    { id: 42, text: "104 - CAIXA ECONOMICA FEDERAL" },
+    { id: 43, text: "107 - BANCO BBM S/A" },
+    { id: 44, text: "117 - Advanced Cc Ltda" },
+    { id: 45, text: "121 - Banco Agibank S.A." },
+    { id: 46, text: "122 - Banco Bradesco BERJ S.A." },
+    { id: 47, text: "151 - BANCO NOSSA CAIXA S.A." },
+    { id: 48, text: "172 - Albatross Ccv S.A" },
+    { id: 49, text: "184 - BANCO ITAÚ BBA S.A." },
+    { id: 50, text: "188 - Ativa Investimentos S.A" },
+    { id: 51, text: "196 - Banco Fair Corretora de Câmbio S.A" },
+    { id: 52, text: "197 - Stone Pagamentos" },
+    { id: 53, text: "204 - BANCO BRADESCO CARTÕES S.A." },
+    { id: 54, text: "208 - BANCO UBS PACTUAL S.A." },
+    { id: 55, text: "212 - BANCO MATONE S.A." },
+    { id: 56, text: "213 - BANCO ARBI S.A." },
+    { id: 57, text: "214 - BANCO DIBENS S.A." },
+    { id: 58, text: "215 - BANCO COMERCIAL E DE INVESTIMENTO SUDAMERIS S.A." },
+    { id: 59, text: "217 - BANCO JOHN DEERE S.A." },
+    { id: 60, text: "218 - BANCO BONSUCESSO S.A." },
+    { id: 61, text: "222 - BANCO CALYON BRASIL S.A." },
+    { id: 62, text: "224 - BANCO FIBRA S.A." },
+    { id: 63, text: "225 - BANCO BRASCAN S.A." },
+    { id: 64, text: "229 - BANCO CRUZEIRO DO SUL S.A." },
+    { id: 65, text: "230 - UNICARD BANCO MÚLTIPLO S.A." },
+    { id: 66, text: "233 - BANCO GE CAPITAL S.A." },
+    { id: 67, text: "237 - BANCO BRADESCO S.A." },
+    { id: 68, text: "241 - BANCO CLASSICO S.A." },
+    { id: 69, text: "243 - BANCO MÁXIMA S.A." },
+    { id: 70, text: "246 - BANCO ABC BRASIL S.A." },
+    { id: 71, text: "248 - BANCO BOAVISTA INTERATLANTICO S.A." },
+    { id: 72, text: "249 - BANCO INVESTCRED UNIBANCO S.A." },
+    { id: 73, text: "250 - BANCO SCHAHIN S.A." },
+    { id: 74, text: "254 - PARANÁ BANCO S.A." },
+    { id: 75, text: "260 - Nubank" },
+    { id: 76, text: "263 - BANCO CACIQUE S.A." },
+    { id: 77, text: "265 - BANCO FATOR S.A." },
+    { id: 78, text: "266 - BANCO CEDULA S.A." },
+    { id: 79, text: "280 - Banco Willbank" },
+    { id: 80, text: "290 - PagBank" },
+    { id: 81, text: "300 - BANCO DE LA NACION ARGENTINA " },
+    { id: 82, text: "318 - BANCO BMG S.A." },
+    { id: 83, text: "320 - BANCO INDUSTRIAL E COMERCIAL S.A." },
+    { id: 84, text: "323 - Mercado Pago" },
+    { id: 85, text: "335 - Banco Digio S.A" },
+    { id: 86, text: "336 - Banco C6 S.A – C6 Bank" },
+    { id: 87, text: "340 - Superdigital" },
+    { id: 88, text: "341 - BANCO ITAÚ S.A." },
+    { id: 89, text: "366 - BANCO SOCIETE GENERALE BRASIL S.A." },
+    { id: 90, text: "368 - Banco Carrefour" },
+    { id: 91, text: "370 - BANCO MIZUHO DO BRASIL S.A." },
+    { id: 92, text: "376 - BANCO J.P. MORGAN S.A." },
+    { id: 93, text: "389 - BANCO MERCANTIL DO BRASIL S.A." },
+    { id: 94, text: "394 - BANCO BRADESCO FINANCIAMENTOS S.A." },
+    { id: 95, text: "399 - KIRTON BANK S.A. - BANCO MÚLTIPLO" },
+    { id: 96, text: "412 - BANCO CAPITAL S.A." },
+    { id: 97, text: "422 - BANCO SAFRA S.A." },
+    { id: 98, text: "456 - BANCO MUFG BRASIL S.A." },
+    { id: 99, text: "464 - BANCO SUMITOMO MITSUI BRASILEIRO S.A." },
+    { id: 100, text: "473 - BANCO CAIXA GERAL - BRASIL S.A." },
+    { id: 101, text: "477 - CITIBANK N.A." },
+    { id: 102, text: "479 - BANCO ITAUBANK S.A." },
+    { id: 103, text: "487 - DEUTSCHE BANK S.A. - BANCO ALEMÃO" },
+    { id: 104, text: "488 - BANCO J. P. MORGAN S.A." },
+    { id: 105, text: "492 - ING BANK N.V." },
+    { id: 106, text: "494 - BANCO DE LA REPUBLICA ORIENTAL DEL URUGUAY" },
+    { id: 107, text: "495 - BANCO DE LA PROVINCIA DE BUENOS AIRES" },
+    { id: 108, text: "505 - Banco Credit Suisse" },
+    { id: 109, text: "545 - SENSO CCVM S.A." },
+    { id: 110, text: "600 - Banco Luso Brasileiro S.A." },
+    { id: 111, text: "604 - BANCO INDUSTRIAL DO BRASIL S.A." },
+    { id: 112, text: "610 - Banco VR S.A." },
+    { id: 113, text: "611 - BANCO PAULISTA S.A." },
+    { id: 114, text: "612 - BANCO GUANABARA S.A." },
+    { id: 115, text: "613 - Omni Banco S.A." },
+    { id: 116, text: "623 - BANCO PAN S.A." },
+    { id: 117, text: "626 - BANCO FICSA S.A." },
+    { id: 118, text: "630 - BANCO LETSBANK S.A." },
+    { id: 119, text: "633 - BANCO RENDIMENTO S.A." },
+    { id: 120, text: "634 - BANCO TRIANGULO S.A." },
+    { id: 121, text: "637 - BANCO SOFISA S.A." },
+    { id: 122, text: "641 - BANCO ALVORADA S.A." },
+    { id: 123, text: "643 - BANCO PINE S.A." },
+    { id: 124, text: "652 - ITAÚ UNIBANCO HOLDING S.A." },
+    { id: 125, text: "653 - BANCO INDUSVAL S.A." },
+    { id: 126, text: "654 - BANCO DIGIMAIS S.A." },
+    { id: 127, text: "655 - BANCO VOTORANTIM S.A." },
+    { id: 128, text: "707 - BANCO DAYCOVAL S.A." },
+    { id: 129, text: "712 - BANCO OURINVEST S.A." },
+    { id: 130, text: "735 - Banco Neon S.A." },
+    { id: 131, text: "739 - Banco Cetelem S.A." },
+    { id: 132, text: "741 - BANCO RIBEIRAO PRETO S.A." },
+    { id: 133, text: "743 - BANCO SEMEAR S.A." },
+    { id: 134, text: "745 - BANCO CITIBANK S.A." },
+    { id: 135, text: "746 - BANCO MODAL S.A." },
+    { id: 136, text: "747 - Banco RABOBANK International Brasil S.A." },
+    { id: 137, text: "748 - BANCO COOPERATIVO SICREDI S.A." },
+    { id: 138, text: "751 - Scotiabank Brasil" },
+    { id: 139, text: "752 - Banco BNP Paribas Brasil S.A." },
+    { id: 140, text: "753 - NOVO BANCO CONTINENTAL S.A. - BANCO MÚLTIPLO" },
+    { id: 141, text: "754 - BANCO SISTEMA S.A." },
+    { id: 142, text: "755 - Bank of America Merrill Lynch Banco Múltiplo S.A." },
+    { id: 143, text: "756 - BANCO COOPERATIVO DO BRASIL S.A. - BANCOOB" },
+    { id: 144, text: "757 - BANCO KEB HANA DO BRASIL S.A." }
+  ];        
+        
+        //Mostra ou oculta os campos para informar os dados pessoais e bancários do procurador
+        $(document).ready(function() {
+            $('#creditoProcurador').change(function() {
+                if ($(this).is(':checked')) {
+                    $('#formulario_Dados_Pessoais_Procurador').show();
+		    		$('#formulario_Dados_Bancarios_Procurador').show();                    
+                } else {
+                    $('#formulario_Dados_Pessoais_Procurador').hide();
+		    		$('#formulario_Dados_Bancarios_Procurador').hide();
+                }
+            });
+            //Preenche o campo de seleção de bancos
+            $('.select_Bancos').select2({
+                data: bancos,
+                placeholder: "Selecione um Banco",
+                width: '40%'});
+        });
+
+        //Formata os campos de CPF e CNPJ do Beneficiario
+        document.getElementById('cpf_cnpj_Beneficiario').addEventListener('input', function(e) {
+			var value = e.target.value;
+			var cpfPattern = value.replace(/\D/g, '') // Remove qualquer coisa que não seja número
+									.replace(/(\d{3})(\d)/, '$1.$2') // Adiciona ponto após o terceiro dígito
+									.replace(/(\d{3})(\d)/, '$1.$2') // Adiciona ponto após o sexto dígito
+									.replace(/(\d{3})(\d)/, '$1-$2'); // Adiciona traço após o nono dígito
+			if(cpfPattern.length>14){
+				cpfPattern = value.replace(/\D/g, '') // Remove qualquer coisa que não seja número
+									.replace(/(\d{2})(\d)/, '$1.$2') // Adiciona ponto após o segundo dígito
+									.replace(/(\d{3})(\d)/, '$1.$2') // Adiciona ponto após o quinto dígito
+									.replace(/(\d{3})(\d)/, '$1/$2') // Adiciona barra após o oitavo dígito
+									.replace(/(\d{4})(\d)/, '$1-$2') // Adiciona traço antes dos dois últimos dígitos
+									.replace(/(-\d{2})\d+?$/, '$1'); // Impede novos dígitos
+			}									
+			e.target.value = cpfPattern;
+		});
+        //Formata os campos de CPF e CNPJ do Procurador
+        document.getElementById('cpf_cnpj_Procurador').addEventListener('input', function(e) {
+			var value = e.target.value;
+			var cpfPattern = value.replace(/\D/g, '') // Remove qualquer coisa que não seja número
+									.replace(/(\d{3})(\d)/, '$1.$2') // Adiciona ponto após o terceiro dígito
+									.replace(/(\d{3})(\d)/, '$1.$2') // Adiciona ponto após o sexto dígito
+									.replace(/(\d{3})(\d)/, '$1-$2'); // Adiciona traço após o nono dígito
+			if(cpfPattern.length>14){
+				cpfPattern = value.replace(/\D/g, '') // Remove qualquer coisa que não seja número
+									.replace(/(\d{2})(\d)/, '$1.$2') // Adiciona ponto após o segundo dígito
+									.replace(/(\d{3})(\d)/, '$1.$2') // Adiciona ponto após o quinto dígito
+									.replace(/(\d{3})(\d)/, '$1/$2') // Adiciona barra após o oitavo dígito
+									.replace(/(\d{4})(\d)/, '$1-$2') // Adiciona traço antes dos dois últimos dígitos
+									.replace(/(-\d{2})\d+?$/, '$1'); // Impede novos dígitos
+			}									
+			e.target.value = cpfPattern;
+		});
+
+        //Formata o campo Agência do Beneficiario
+        document.getElementById('agencia_Beneficiario').addEventListener('input', function(e) {
+			var value = e.target.value;
+			var agenciaPattern = value.replace(/\D/g, '') // Remove qualquer coisa que não seja número
+									.replace(/(\d{4})\d+?$/, '$1'); // Impede mais que 4 dígitos
+												
+			e.target.value = agenciaPattern;
+		});
+        //Formata o campo Agência do Procurador
+        document.getElementById('agencia_Procurador').addEventListener('input', function(e) {
+			var value = e.target.value;
+			var agenciaPattern = value.replace(/\D/g, '') // Remove qualquer coisa que não seja número
+									.replace(/(\d{4})\d+?$/, '$1'); // Impede mais que 4 dígitos
+												
+			e.target.value = agenciaPattern;
+		});
+
+        //Formata o campo Conta do Beneficiario
+        function formatarConta() {
+            const input = document.getElementById('conta_Beneficiario');
+            let value = input.value;
+
+            // Remove qualquer caractere que não seja dígito
+            value = value.replace(/\D/g, '');
+
+            // Se tiver mais de um dígito, adicione o separador '-'
+            if (value.length > 1) {
+                value = value.slice(0, -1) + '-' + value.slice(-1);
+            }
+
+            input.value = value;
+        }
+        //Formata o campo Conta do Procurador
+        function formatarContaProcurador() {
+            const input = document.getElementById('conta_Procurador');
+            let value = input.value;
+
+            // Remove qualquer caractere que não seja dígito
+            value = value.replace(/\D/g, '');
+
+            // Se tiver mais de um dígito, adicione o separador '-'
+            if (value.length > 1) {
+                value = value.slice(0, -1) + '-' + value.slice(-1);
+            }
+
+            input.value = value;
+        }
+
+        //Formata o campo valor em Reais do Beneficiario e Procurador
+        function formatarMoeda() {
+			$("#valor_Reais_Beneficiario").maskMoney({prefix:'R$ ', allowNegative: false, thousands:'.', decimal:','});
+			$("#valor_Reais_Procurador").maskMoney({prefix:'R$ ', allowNegative: false, thousands:'.', decimal:','});
+        }
+
+        //Formata o campo valor em Porentagem do Beneficiario e Procurador
+		function formatarPorcentagem() {
+			$("#valor_Porcentagem_Beneficiario").maskMoney({decimal:',', suffix:'%', precision: 1});
+			$("#valor_Porcentagem_Procurador").maskMoney({decimal:',', suffix:'%', precision: 1});
+		}
+
+        //Formata o campo telefone
+        document.getElementById('telefone').addEventListener('input', function(e) {
+			var value = e.target.value;
+			var cpfPattern = value.replace(/\D/g, '') // Remove qualquer coisa que não seja número
+									.replace(/(\d{2})(\d)/, '($1)$2') // Adiciona Parenteses ao DDD (2 primeiros dígitos)
+									.replace(/(\d{5})(\d)/, '$1-$2') // Adiciona traço após os 5 primeiros números do celular
+									.replace(/(-\d{4})\d+?$/, '$1'); // Impede novos dígitos
+												
+			e.target.value = cpfPattern;
+		});
+    </script>
+</body>
+</html>
