@@ -19,14 +19,20 @@
         
         <form action="src/gerarPDF.php" method="POST" class="formulario" name="formularioDJO">
             <!-- O primeiro campo do Formulário deve conter os dados da CONTA JUDICIAL -->
-            <fieldset id="formulario_Dados_Conta_Judicial" name="formulario_Dados_Conta_Judicial" class="formulario_Campo_Obrigatorio">
+            <fieldset id="formulario_Dados_Conta_Judicial" name="formulario_Dados_Conta_Judicial" class="formulario_Campo_Obrigatorio formulario_Campos_Flex">
                 <legend>Dados das Contas Judiciais</legend>
-                <input type="radio" id="deposito_Judicial" name="radio_Tipo_Conta_Judicial" value="Deposito Judicial" class="radio_Dados_Contas_Judiciais" required>
-                <label for="deposito_Judicial" class="label_Dados_Contas_Judiciais">Depósito Judicial</label>
-                <input type="radio" id="precatorio_Com_Alvara" name="radio_Tipo_Conta_Judicial" value="Precatório Com Alvara" class="radio_Dados_Contas_Judiciais">
-                <label for="precatorio_Com_Alvara" class="label_Dados_Contas_Judiciais">Precatório com Alvará</label>
-                <input type="radio" id="precatorio_Sem_Alvara" name="radio_Tipo_Conta_Judicial" value="Precatório Sem Alvara" class="radio_Dados_Contas_Judiciais">
-                <label for="precatorio_Sem_Alvara" class="label_Dados_Contas_Judiciais">Precatório sem Alvará</label><br>
+                <label for="deposito_Judicial" class="label_Dados_Contas_Judiciais">
+                    <input type="radio" id="deposito_Judicial" name="radio_Tipo_Conta_Judicial" value="Deposito Judicial" class="radio_Dados_Contas_Judiciais" required>
+                    Depósito Judicial
+                </label>
+                <label for="precatorio_Com_Alvara" class="label_Dados_Contas_Judiciais">
+                    <input type="radio" id="precatorio_Com_Alvara" name="radio_Tipo_Conta_Judicial" value="Precatório Com Alvara" class="radio_Dados_Contas_Judiciais">
+                    Precatório com Alvará
+                </label>
+                <label for="precatorio_Sem_Alvara" class="label_Dados_Contas_Judiciais">
+                    <input type="radio" id="precatorio_Sem_Alvara" name="radio_Tipo_Conta_Judicial" value="Precatório Sem Alvara" class="radio_Dados_Contas_Judiciais">
+                    Precatório sem Alvará
+                </label><br>
                 <label for="numero_Conta_Judicial1" class="label_Dados_Contas_Judiciais">Número das contas Judiciais</label>
                 <input type="text" id="numero_Conta_Judicial1" name="numero_Conta_Judicial1" inputmode="numeric" class="input_Dados_Contas_Judiciais" required>
                 <input type="text" id="numero_Conta_Judicial2" name="numero_Conta_Judicial2" inputmode="numeric" class="input_Dados_Contas_Judiciais">

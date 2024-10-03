@@ -117,3 +117,80 @@ footer {
     text-decoration: none;
     float: right;
 }
+
+
+/* Configurações para Tablet */
+@media screen and (max-width: 1024px) {
+    .container_Formulario {
+        width: 75%;
+    }
+
+    .formulario_Dados_Contato_Grid {
+        grid-template-areas: 
+        "#telefone #email #email"
+        "#local #data .";
+    }
+
+    footer {
+        padding-top: 12em;
+        height: 0.1vh;
+    }
+}
+
+
+/* Configurações para Smartphone */
+@media screen and (max-width: 480px) {
+    
+    body {
+        font-size: 14px;
+    }
+
+    .formulario_Campos_Flex {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .formulario_Campo_Obrigatorio {
+        margin: 0.5em 0.1em;
+    }
+
+    .container_Formulario {
+        justify-content: center;
+        width: 85%;
+    }
+    
+    .formulario {
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .logo_BB {
+        margin: 0 1.5em;
+    }
+
+    .input_Dados_Contas_Judiciais_Grande, .input_Dados_Pessoais {
+        width: 16em;
+    }
+
+    .formulario_Dados_Contato_Grid{
+        display: flex;
+        flex-direction: column;
+        /*grid-template-columns: 5em 6em 5em 7em;*/
+    }
+
+    .input_Dados_Contato_Data {
+        width: 8em;
+    }
+
+    .label_Dados_Contato, .input_Dados_Contato_Data {
+        margin: 0.1em;
+    }
+
+    legend {
+        font-size: 15px;
+    }
+}
+
